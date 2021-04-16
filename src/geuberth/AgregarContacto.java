@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -22,6 +23,7 @@ public class AgregarContacto extends JDialog {
 	private JTextField txtAlias;
 	private Contacto contacto;
 	private JTextField txtCC;
+	private JTextField txtDescripcion;
 
 	/**
 	 * Create the dialog.
@@ -87,6 +89,15 @@ public class AgregarContacto extends JDialog {
 			contentPanel.add(txtAlias);
 			txtAlias.setColumns(10);
 		}
+		
+		JLabel lblDescripcion = new JLabel("Descripci\u00F3n");
+		lblDescripcion.setBounds(6, 241, 62, 14);
+		contentPanel.add(lblDescripcion);
+		
+		txtDescripcion = new JTextField();
+		txtDescripcion.setBounds(6, 266, 430, 20);
+		contentPanel.add(txtDescripcion);
+		txtDescripcion.setColumns(10);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -122,11 +133,17 @@ public class AgregarContacto extends JDialog {
 	 */
 	private void guardar(AgregarContactoResponse agregarContactoResponse) {
 		contacto = new Contacto();
-		contacto.setAlias(txtAlias.getText());
-		contacto.setDireccion(txtDireccion.getText());
-		contacto.setEmail(txtEmail.getText());
-		contacto.setNombre(txtNombre.getText());
-		contacto.setTelefono(txtTelefono.getText());
+		contacto.setAlias(txtAlias.getText().trim());
+		contacto.setDireccion(txtDireccion.getText().trim());
+		contacto.setEmail(txtEmail.getText().trim());
+		if(txtNombre.getText().trim().equals("") || txtDescripcion.getText().trim().equals("") || txtTelefono.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "Uno de los campos obligatorios de los campos esta vacio (Nombre,telefono,descripcion)");
+			return;
+		}else {
+			contacto.setNombre(txtNombre.getText().trim());
+			contacto.setTelefono(txtTelefono.getText().trim());
+			contacto.setDescripcion(txtDescripcion.getText().trim());	
+		}
 		agregarContactoResponse.getResponse(contacto);
 		if (agregarContactoResponse.getIsCorrect()) {
 			setVisible(false);

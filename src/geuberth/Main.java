@@ -148,27 +148,27 @@ public class Main extends JFrame {
 
 		// Modelo de la tabla o conjunto de registros que se pintaran en la tabla.
 		tableModel = new DefaultTableModel(new Object[][] {},
-				new String[] { "Nombre", "Tel\u00E9fono", "email", "direccion", "alias" }) {
-			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class,
+				new String[] { "Nombre", "Tel\u00E9fono", "email", "direccion", "alias", "Descripci\u00F3n" }) {
+			Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,
 					String.class };
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 
-			boolean[] columnEditables = new boolean[] { false, false, false, false, false };
+			boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		};
-
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(3).setResizable(false);
 		table.getColumnModel().getColumn(4).setResizable(false);
+		table.getColumnModel().getColumn(5).setResizable(false);
 
 		/* Aplicamos un filtro a la tabla para filtrar la búsqueda después. */
 		rowSorter = new TableRowSorter<>(table.getModel());
@@ -203,8 +203,8 @@ public class Main extends JFrame {
 		}
 
 		for (Contacto c : contactos) {
-			tableModel.addRow(new String[] { c.getNombre(), c.getTelefono(), c.getEmail(), c.getDireccion(),
-					c.getAlias() });
+			tableModel.addRow(
+					new String[] { c.getNombre(), c.getTelefono(), c.getEmail(), c.getDireccion(), c.getAlias(), c.getDescripcion() });
 		}
 
 	}
@@ -388,7 +388,7 @@ public class Main extends JFrame {
 	 *         contacto sin cerrar la ventana. mejorando la usabilidad
 	 */
 	private class ModificarContactoImp implements ModificarContactoResponse {
-		
+
 		boolean isCorrect = true;
 		Contacto original;
 
@@ -397,16 +397,20 @@ public class Main extends JFrame {
 			// TODO Auto-generated method stub
 			for (Contacto co : contactos) {
 				if (reemplazo.getTelefono().equals(co.getTelefono())) {
-					isCorrect = false;
-					break;
+					if(original.getNombre().equals(co.getNombre()) && original.getTelefono().equals(co.getTelefono()) && original.getDireccion().equals(co.getDireccion()) && original.getAlias().equals(co.getAlias()) && original.getDescripcion().equals(co.getDescripcion())) {
+					}else {
+						isCorrect = false;
+						break;					
+					}
+
 				}
-				
+
 			}
-			if(isCorrect) {
+			if (isCorrect) {
 				int idx = contactos.indexOf(original);
 				contactos.set(idx, reemplazo);
 				actualizarLista();
-			}else {
+			} else {
 				JOptionPane.showMessageDialog(null, "Ya existe el número telefónico en su lista de contactos.");
 			}
 
@@ -430,7 +434,7 @@ public class Main extends JFrame {
 		@Override
 		public void restoreIsCorrect() {
 			isCorrect = true;
-			
+
 		}
 	}
 }

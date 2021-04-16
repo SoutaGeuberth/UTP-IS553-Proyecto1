@@ -12,6 +12,7 @@ public class Contacto {
 	private String email;
 	private String direccion;
 	private String alias;
+	private String descripcion; 
 
 	public Contacto() {
 
@@ -58,6 +59,14 @@ public class Contacto {
 	}
 
 	public String toString() {
-		return this.nombre + ";" + this.telefono + ";" + this.email + ";" + this.direccion + ";" + this.alias + "\n";
+		return this.nombre + ";" + this.telefono + ";" + this.email + ";" + this.direccion + ";" + this.alias + ";" + this.descripcion + "\n";
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 }
