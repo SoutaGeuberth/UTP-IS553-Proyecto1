@@ -8,4 +8,7 @@ package geuberth;
 public interface ModificarContactoResponse {
 	void getResponse(Contacto original,Contacto reemplazo);
 	Contacto getContacto();
+	boolean getIsCorrect();
+
+	void restoreIsCorrect();
 }

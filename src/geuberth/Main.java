@@ -19,6 +19,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -386,14 +388,28 @@ public class Main extends JFrame {
 	 *         contacto sin cerrar la ventana. mejorando la usabilidad
 	 */
 	private class ModificarContactoImp implements ModificarContactoResponse {
+		
+		boolean isCorrect = true;
 		Contacto original;
 
 		@Override
 		public void getResponse(Contacto original, Contacto reemplazo) {
 			// TODO Auto-generated method stub
-			int idx = contactos.indexOf(original);
-			contactos.set(idx, reemplazo);
-			actualizarLista();
+			for (Contacto co : contactos) {
+				if (reemplazo.getTelefono().equals(co.getTelefono())) {
+					isCorrect = false;
+					break;
+				}
+				
+			}
+			if(isCorrect) {
+				int idx = contactos.indexOf(original);
+				contactos.set(idx, reemplazo);
+				actualizarLista();
+			}else {
+				JOptionPane.showMessageDialog(null, "Ya existe el número telefónico en su lista de contactos.");
+			}
+
 		}
 
 		@Override
@@ -404,6 +420,17 @@ public class Main extends JFrame {
 
 		public void setContactoOriginal(Contacto original) {
 			this.original = original;
+		}
+
+		@Override
+		public boolean getIsCorrect() {
+			return isCorrect;
+		}
+
+		@Override
+		public void restoreIsCorrect() {
+			isCorrect = true;
+			
 		}
 	}
 }

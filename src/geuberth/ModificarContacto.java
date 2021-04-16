@@ -148,8 +148,12 @@ public class ModificarContacto extends JDialog {
 		contacto.setNombre(txtNombre.getText());
 		contacto.setTelefono(txtTelefono.getText());
 		modificarContactoResponse.getResponse(modificarContactoResponse.getContacto(),contacto);
-		setVisible(false);
-		dispose();
+		if (modificarContactoResponse.getIsCorrect()) {
+			setVisible(false);
+			dispose();
+		} else {
+			modificarContactoResponse.restoreIsCorrect();
+		}
 	}
 
 }
